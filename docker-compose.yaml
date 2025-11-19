@@ -1,0 +1,10 @@
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: MyUnboud
+    ports:
+    - '5335:5335/tcp'
+    - '5335:5335/udp'
+    restart: unless-stopped
