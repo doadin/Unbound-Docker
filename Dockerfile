@@ -1,8 +1,8 @@
-FROM debian:bookworm AS openssl
+FROM debian:trixie AS openssl
 LABEL maintainer="Doadin"
 
-ENV VERSION_OPENSSL=openssl-3.5.0 \
-    SHA256_OPENSSL=344d0a79f1a9b08029b0744e2cc401a43f9c90acd1044d09a530b4885a8e9fc0 \
+ENV VERSION_OPENSSL=openssl-3.6.0 \
+    SHA256_OPENSSL=b6a5f44b7eb69e3fa35dbf15524405b44837a481d43d81daddde3ff21fcbb8e9 \
     SOURCE_OPENSSL=https://github.com/openssl/openssl/releases/download/ \
     # OpenSSL OMC
     OPGP_OPENSSL_1=EFC0A467D613CB83C7ED6D30D894E2CE8B3D79F5 \
@@ -49,14 +49,14 @@ RUN set -e -x && \
         /var/tmp/* \
         /var/lib/apt/lists/*
 
-FROM debian:bookworm AS unbound
+FROM debian:trixie AS unbound
 LABEL maintainer="Doadin"
 
 ENV NAME=unbound \
-    UNBOUND_VERSION=1.23.0 \
-	UNBOUND_DIR=unbound-1.23.0 \
-    UNBOUND_SHA256=959bd5f3875316d7b3f67ee237a56de5565f5b35fc9b5fc3cea6cfe735a03bb8 \
-    UNBOUND_DOWNLOAD_URL=https://nlnetlabs.nl/downloads/unbound/unbound-1.23.0.tar.gz
+    UNBOUND_VERSION=1.24.1 \
+	UNBOUND_DIR=unbound-1.24.1 \
+    UNBOUND_SHA256=7f2b1633e239409619ae0527f67878b0f33ae0ec0ee5a3a51c042c359ba1eeab \
+    UNBOUND_DOWNLOAD_URL=https://nlnetlabs.nl/downloads/unbound/unbound-1.24.1.tar.gz
 
 WORKDIR /tmp/src
 
@@ -104,7 +104,7 @@ RUN build_deps="curl gcc libc-dev libevent-dev libexpat1-dev libnghttp2-dev make
         /var/lib/apt/lists/*
 
 
-FROM debian:bookworm
+FROM debian:trixie
 LABEL maintainer="Doadin"
 
 ENV NAME=unbound \
@@ -133,6 +133,14 @@ RUN set -x && \
         /tmp/* \
         /var/tmp/* \
         /var/lib/apt/lists/*
+
+# Ensure the log directory exists and is owned by _unbound
+#RUN mkdir -p /opt/unbound/etc/unbound && \
+#    chown -R _unbound:_unbound /opt/unbound/etc/unbound && \
+#    chmod 755 /opt/unbound/etc/unbound && \
+#    touch /opt/unbound/etc/unbound/unbound.log && \
+#    chown _unbound:_unbound /opt/unbound/etc/unbound/unbound.log && \
+#    chmod 644 /opt/unbound/etc/unbound/unbound.log
 
 COPY data/ /
 
