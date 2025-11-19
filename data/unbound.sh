@@ -72,7 +72,7 @@ server:
     # it.
     # Default: yes
     # May be set to yes if you have IPv6 connectivity
-    do-ip6: no
+    do-ip6: yes
 
     # Enable or disable whether TCP queries are answered or issued.
     # Default: yes
@@ -108,7 +108,10 @@ server:
 
     # Listen to for queries from clients and answer from this network interface
     # and port.
+    #To bind to all interfaces, including IPv6, you can set the interface: 
+    #option to "::0" or "0.0.0.0" (although the latter will only bind to IPv4). 
     interface: 0.0.0.0@5335
+    interface: ::0@5335
 
     # If enabled, prefer IPv6 transport for sending DNS queries to internet
     # nameservers.
